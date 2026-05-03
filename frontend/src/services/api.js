@@ -4,6 +4,8 @@ export const authAPI = {
   register: (data) => api.post('/auth/register', data),
   login: (data) => api.post('/auth/login', data),
   getCurrentUser: () => api.get('/auth/me'),
+  getEmployees: () => api.get('/auth/employees'),
+  getEmployee: (email) => api.get(`/auth/employees/${email}`),
 }
 
 export const projectsAPI = {

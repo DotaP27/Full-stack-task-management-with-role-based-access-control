@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../contexts/AuthContext'
+import { authAPI } from '../services/api'
 
 export default function AdminDashboard() {
   const [employees, setEmployees] = useState([])
@@ -16,8 +17,8 @@ export default function AdminDashboard() {
 
   const fetchEmployees = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/auth/employees')
-      const data = await response.json()
+      const response = await authAPI.getEmployees()
+      const data = response.data
       setEmployees(data.employees || [])
     } catch (err) {
       console.error('Failed to fetch employees', err)

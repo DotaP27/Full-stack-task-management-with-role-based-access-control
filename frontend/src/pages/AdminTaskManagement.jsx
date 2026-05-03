@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { tasksAPI, projectsAPI } from '../services/api'
+import { tasksAPI, projectsAPI, authAPI } from '../services/api'
 import { AuthContext } from '../contexts/AuthContext'
 
 export default function AdminTaskManagement() {
@@ -40,8 +40,8 @@ export default function AdminTaskManagement() {
       setProjects(projectsRes.data || [])
 
       // Fetch employees
-      const employeesRes = await fetch('http://localhost:8000/api/auth/employees')
-      const employeesData = await employeesRes.json()
+      const employeesRes = await authAPI.getEmployees()
+      const employeesData = employeesRes.data
       setEmployees(employeesData.employees || [])
 
       // Fetch tasks

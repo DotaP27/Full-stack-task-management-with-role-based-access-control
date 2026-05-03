@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { authAPI, tasksAPI, projectsAPI } from '../services/api'
 import { AuthContext } from '../contexts/AuthContext'
 
 export default function EmployeeDetailDashboard() {
@@ -20,14 +21,14 @@ export default function EmployeeDetailDashboard() {
   const fetchEmployeeData = async () => {
     try {
       const [empRes, tasksRes, projectsRes] = await Promise.all([
-        fetch(`http://localhost:8000/api/auth/employees/${email}`),
-        fetch('http://localhost:8000/api/tasks/'),
-        fetch('http://localhost:8000/api/projects/')
+        authAPI.getEmployee(email),
+        tasksAPI.getAll(),
+        projectsAPI.getAll()
       ])
 
-      const empData = await empRes.json()
-      const tasksData = await tasksRes.json()
-      const projectsData = await projectsRes.json()
+      const empData = empRes.data
+      const tasksData = tasksRes.data
+      const projectsData = projectsRes.data
 
       setEmployee(empData)
       setTasks(tasksData || [])
