@@ -2,6 +2,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
+import sys
+import os
+
+# Add backend dir to path for imports
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 from database import Base, engine
 from config import settings
 from routes import auth, projects, tasks
