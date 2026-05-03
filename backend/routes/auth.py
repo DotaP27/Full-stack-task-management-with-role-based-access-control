@@ -3,6 +3,7 @@ from datetime import timedelta
 from datetime import datetime
 import json
 import base64
+from schemas import UserLogin, UserCreate, TokenResponse
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 
@@ -50,11 +51,11 @@ def get_user_by_email(email):
         "role": "member"
     })
 
-@router.post("/login")
-def login(credentials: dict):
+@router.post("/login", response_model=TokenResponse)
+def login(credentials: UserLogin):
     # Mock login for development - accept demo account or any registered account
-    email = credentials.get("email")
-    password = credentials.get("password")
+    email = credentials.email
+    password = credentials.password
     
     # Demo admin account
     if email == "test@example.com" and password == "password123":
@@ -78,10 +79,10 @@ def login(credentials: dict):
     
     raise HTTPException(status_code=401, detail="Invalid credentials")
 
-@router.post("/register")
-def register(user: dict):
-    email = user.get("email", "user@example.com")
-    username = user.get("username", email.split("@")[0])
+@router.post("/register", response_model=TokenResponse)
+def register(user: UserCreate):
+    email = user.email
+    username = user.username
     
     new_user = {
         "id": len(EMPLOYEES) + 2,
