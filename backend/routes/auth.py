@@ -3,6 +3,7 @@ from datetime import timedelta
 from datetime import datetime
 import json
 import base64
+from ..schemas import UserLogin, UserCreate, TokenResponse
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 
